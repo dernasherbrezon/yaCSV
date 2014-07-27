@@ -16,9 +16,9 @@ public class CSVReader implements Closeable, Iterable<String[]>, Iterator<String
 
 	private String[] nextLine;
 
-	CSVParser parser;
+	private CSVParser parser;
 
-	int skipLines;
+	private int skipLines;
 
 	private boolean linesSkiped;
 

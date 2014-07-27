@@ -61,7 +61,7 @@ class CSVParser {
 	/**
 	 * Constructs CSVParser using a comma for the separator.
 	 */
-	public CSVParser() {
+	CSVParser() {
 		this(DEFAULT_SEPARATOR, DEFAULT_QUOTE_CHARACTER, DEFAULT_ESCAPE_CHARACTER);
 	}
 
@@ -71,7 +71,7 @@ class CSVParser {
 	 * @param separator
 	 *            the delimiter to use for separating entries.
 	 */
-	public CSVParser(char separator) {
+	CSVParser(char separator) {
 		this(separator, DEFAULT_QUOTE_CHARACTER, DEFAULT_ESCAPE_CHARACTER);
 	}
 
@@ -83,7 +83,7 @@ class CSVParser {
 	 * @param quotechar
 	 *            the character to use for quoted elements
 	 */
-	public CSVParser(char separator, char quotechar) {
+	CSVParser(char separator, char quotechar) {
 		this(separator, quotechar, DEFAULT_ESCAPE_CHARACTER);
 	}
 
@@ -97,7 +97,7 @@ class CSVParser {
 	 * @param escape
 	 *            the character to use for escaping a separator or quote
 	 */
-	public CSVParser(char separator, char quotechar, char escape) {
+	CSVParser(char separator, char quotechar, char escape) {
 		this(separator, quotechar, escape, DEFAULT_STRICT_QUOTES);
 	}
 
@@ -113,7 +113,7 @@ class CSVParser {
 	 * @param strictQuotes
 	 *            if true, characters outside the quotes are ignored
 	 */
-	public CSVParser(char separator, char quotechar, char escape, boolean strictQuotes) {
+	CSVParser(char separator, char quotechar, char escape, boolean strictQuotes) {
 		this(separator, quotechar, escape, strictQuotes, DEFAULT_IGNORE_LEADING_WHITESPACE);
 	}
 
@@ -131,7 +131,7 @@ class CSVParser {
 	 * @param ignoreLeadingWhiteSpace
 	 *            if true, white space in front of a quote in a field is ignored
 	 */
-	public CSVParser(char separator, char quotechar, char escape, boolean strictQuotes, boolean ignoreLeadingWhiteSpace) {
+	CSVParser(char separator, char quotechar, char escape, boolean strictQuotes, boolean ignoreLeadingWhiteSpace) {
 		this(separator, quotechar, escape, strictQuotes, ignoreLeadingWhiteSpace, DEFAULT_IGNORE_QUOTATIONS);
 	}
 
@@ -149,7 +149,7 @@ class CSVParser {
 	 * @param ignoreLeadingWhiteSpace
 	 *            if true, white space in front of a quote in a field is ignored
 	 */
-	public CSVParser(char separator, char quotechar, char escape, boolean strictQuotes, boolean ignoreLeadingWhiteSpace, boolean ignoreQuotations) {
+	CSVParser(char separator, char quotechar, char escape, boolean strictQuotes, boolean ignoreLeadingWhiteSpace, boolean ignoreQuotations) {
 		if (anyCharactersAreTheSame(separator, quotechar, escape)) {
 			throw new UnsupportedOperationException("The separator, quote, and escape characters must be different!");
 		}
@@ -164,28 +164,25 @@ class CSVParser {
 		this.ignoreQuotations = ignoreQuotations;
 	}
 
-	private boolean anyCharactersAreTheSame(char separator, char quotechar, char escape) {
+	private static boolean anyCharactersAreTheSame(char separator, char quotechar, char escape) {
 		return isSameCharacter(separator, quotechar) || isSameCharacter(separator, escape) || isSameCharacter(quotechar, escape);
 	}
 
-	private boolean isSameCharacter(char c1, char c2) {
+	private static boolean isSameCharacter(char c1, char c2) {
 		return c1 != NULL_CHARACTER && c1 == c2;
 	}
 
 	/**
 	 * @return true if something was left over from last call(s)
 	 */
-	public boolean isPending() {
+	boolean isPending() {
 		return pending != null;
 	}
 
-	public String[] parseLineMulti(String nextLine) throws IOException {
+	String[] parseLineMulti(String nextLine) throws IOException {
 		return parseLine(nextLine, true);
 	}
 
-	public String[] parseLine(String nextLine) throws IOException {
-		return parseLine(nextLine, false);
-	}
 
 	/**
 	 * Parses an incoming String and returns an array of elements.
