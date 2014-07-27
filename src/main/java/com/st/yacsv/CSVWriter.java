@@ -19,43 +19,13 @@ public class CSVWriter implements Flushable, Closeable {
 	private String lineEnd;
 
 	/**
-	 * The character used for escaping quotes.
-	 */
-	public static final char DEFAULT_ESCAPE_CHARACTER = '"';
-
-	/**
-	 * The default separator to use if none is supplied to the constructor.
-	 */
-	public static final char DEFAULT_SEPARATOR = ',';
-
-	/**
-	 * The default quote character to use if none is supplied to the constructor.
-	 */
-	public static final char DEFAULT_QUOTE_CHARACTER = '"';
-
-	/**
-	 * The quote constant to use when you wish to suppress all quoting.
-	 */
-	public static final char NO_QUOTE_CHARACTER = '\u0000';
-
-	/**
-	 * The escape constant to use when you wish to suppress all escaping.
-	 */
-	public static final char NO_ESCAPE_CHARACTER = '\u0000';
-
-	/**
-	 * Default line terminator uses platform encoding.
-	 */
-	public static final String DEFAULT_LINE_END = "\n";
-
-	/**
 	 * Constructs CSVWriter using a comma for the separator.
 	 * 
 	 * @param writer
 	 *            the writer to an underlying CSV source.
 	 */
 	public CSVWriter(Writer writer) {
-		this(writer, DEFAULT_SEPARATOR);
+		this(writer, CSVDefaults.DEFAULT_SEPARATOR);
 	}
 
 	/**
@@ -67,7 +37,7 @@ public class CSVWriter implements Flushable, Closeable {
 	 *            the delimiter to use for separating entries.
 	 */
 	public CSVWriter(Writer writer, char separator) {
-		this(writer, separator, DEFAULT_QUOTE_CHARACTER);
+		this(writer, separator, CSVDefaults.DEFAULT_QUOTE_CHARACTER);
 	}
 
 	/**
@@ -81,7 +51,7 @@ public class CSVWriter implements Flushable, Closeable {
 	 *            the character to use for quoted elements
 	 */
 	public CSVWriter(Writer writer, char separator, char quotechar) {
-		this(writer, separator, quotechar, DEFAULT_ESCAPE_CHARACTER);
+		this(writer, separator, quotechar, CSVDefaults.DEFAULT_ESCAPE_CHARACTER);
 	}
 
 	/**
@@ -97,7 +67,7 @@ public class CSVWriter implements Flushable, Closeable {
 	 *            the character to use for escaping quotechars or escapechars
 	 */
 	public CSVWriter(Writer writer, char separator, char quotechar, char escapechar) {
-		this(writer, separator, quotechar, escapechar, DEFAULT_LINE_END);
+		this(writer, separator, quotechar, escapechar, CSVDefaults.DEFAULT_LINE_END);
 	}
 
 	/**
@@ -113,7 +83,7 @@ public class CSVWriter implements Flushable, Closeable {
 	 *            the line feed terminator to use
 	 */
 	public CSVWriter(Writer writer, char separator, char quotechar, String lineEnd) {
-		this(writer, separator, quotechar, DEFAULT_ESCAPE_CHARACTER, lineEnd);
+		this(writer, separator, quotechar, CSVDefaults.DEFAULT_ESCAPE_CHARACTER, lineEnd);
 	}
 
 	/**
@@ -192,7 +162,7 @@ public class CSVWriter implements Flushable, Closeable {
 
 			Boolean stringContainsSpecialCharacters = stringContainsSpecialCharacters(nextElement);
 
-			if ((applyQuotesToAll || stringContainsSpecialCharacters) && quotechar != NO_QUOTE_CHARACTER) {
+			if ((applyQuotesToAll || stringContainsSpecialCharacters) && quotechar != CSVDefaults.NO_QUOTE_CHARACTER) {
 				out.append(quotechar);
 			}
 
@@ -202,7 +172,7 @@ public class CSVWriter implements Flushable, Closeable {
 				out.append(nextElement);
 			}
 
-			if ((applyQuotesToAll || stringContainsSpecialCharacters) && quotechar != NO_QUOTE_CHARACTER) {
+			if ((applyQuotesToAll || stringContainsSpecialCharacters) && quotechar != CSVDefaults.NO_QUOTE_CHARACTER) {
 				out.append(quotechar);
 			}
 		}
@@ -226,9 +196,9 @@ public class CSVWriter implements Flushable, Closeable {
 	protected void processLine(Appendable sb, String nextElement) throws IOException {
 		for (int j = 0; j < nextElement.length(); j++) {
 			char nextChar = nextElement.charAt(j);
-			if (escapechar != NO_ESCAPE_CHARACTER && nextChar == quotechar) {
+			if (escapechar != CSVDefaults.NO_ESCAPE_CHARACTER && nextChar == quotechar) {
 				sb.append(escapechar).append(nextChar);
-			} else if (escapechar != NO_ESCAPE_CHARACTER && nextChar == escapechar) {
+			} else if (escapechar != CSVDefaults.NO_ESCAPE_CHARACTER && nextChar == escapechar) {
 				sb.append(escapechar).append(nextChar);
 			} else {
 				sb.append(nextChar);

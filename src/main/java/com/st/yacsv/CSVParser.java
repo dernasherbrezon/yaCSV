@@ -21,48 +21,13 @@ class CSVParser {
 
 	final boolean ignoreQuotations;
 
-	/**
-	 * The default separator to use if none is supplied to the constructor.
-	 */
-	public static final char DEFAULT_SEPARATOR = ',';
-
-	public static final int INITIAL_READ_SIZE = 128;
-
-	/**
-	 * The default quote character to use if none is supplied to the constructor.
-	 */
-	public static final char DEFAULT_QUOTE_CHARACTER = '"';
-
-	/**
-	 * The default escape character to use if none is supplied to the constructor.
-	 */
-	public static final char DEFAULT_ESCAPE_CHARACTER = '\\';
-
-	/**
-	 * The default strict quote behavior to use if none is supplied to the constructor
-	 */
-	public static final boolean DEFAULT_STRICT_QUOTES = false;
-
-	/**
-	 * The default leading whitespace behavior to use if none is supplied to the constructor
-	 */
-	public static final boolean DEFAULT_IGNORE_LEADING_WHITESPACE = true;
-
-	/**
-	 * I.E. if the quote character is set to null then there is no quote character.
-	 */
-	public static final boolean DEFAULT_IGNORE_QUOTATIONS = false;
-
-	/**
-	 * This is the "null" character - if a value is set to this then it is ignored.
-	 */
-	static final char NULL_CHARACTER = '\0';
+	private static final int INITIAL_READ_SIZE = 128;
 
 	/**
 	 * Constructs CSVParser using a comma for the separator.
 	 */
 	CSVParser() {
-		this(DEFAULT_SEPARATOR, DEFAULT_QUOTE_CHARACTER, DEFAULT_ESCAPE_CHARACTER);
+		this(CSVDefaults.DEFAULT_SEPARATOR, CSVDefaults.DEFAULT_QUOTE_CHARACTER, CSVDefaults.DEFAULT_ESCAPE_CHARACTER);
 	}
 
 	/**
@@ -72,7 +37,7 @@ class CSVParser {
 	 *            the delimiter to use for separating entries.
 	 */
 	CSVParser(char separator) {
-		this(separator, DEFAULT_QUOTE_CHARACTER, DEFAULT_ESCAPE_CHARACTER);
+		this(separator, CSVDefaults.DEFAULT_QUOTE_CHARACTER, CSVDefaults.DEFAULT_ESCAPE_CHARACTER);
 	}
 
 	/**
@@ -84,7 +49,7 @@ class CSVParser {
 	 *            the character to use for quoted elements
 	 */
 	CSVParser(char separator, char quotechar) {
-		this(separator, quotechar, DEFAULT_ESCAPE_CHARACTER);
+		this(separator, quotechar, CSVDefaults.DEFAULT_ESCAPE_CHARACTER);
 	}
 
 	/**
@@ -98,7 +63,7 @@ class CSVParser {
 	 *            the character to use for escaping a separator or quote
 	 */
 	CSVParser(char separator, char quotechar, char escape) {
-		this(separator, quotechar, escape, DEFAULT_STRICT_QUOTES);
+		this(separator, quotechar, escape, CSVDefaults.DEFAULT_STRICT_QUOTES);
 	}
 
 	/**
@@ -114,7 +79,7 @@ class CSVParser {
 	 *            if true, characters outside the quotes are ignored
 	 */
 	CSVParser(char separator, char quotechar, char escape, boolean strictQuotes) {
-		this(separator, quotechar, escape, strictQuotes, DEFAULT_IGNORE_LEADING_WHITESPACE);
+		this(separator, quotechar, escape, strictQuotes, CSVDefaults.DEFAULT_IGNORE_LEADING_WHITESPACE);
 	}
 
 	/**
@@ -132,7 +97,7 @@ class CSVParser {
 	 *            if true, white space in front of a quote in a field is ignored
 	 */
 	CSVParser(char separator, char quotechar, char escape, boolean strictQuotes, boolean ignoreLeadingWhiteSpace) {
-		this(separator, quotechar, escape, strictQuotes, ignoreLeadingWhiteSpace, DEFAULT_IGNORE_QUOTATIONS);
+		this(separator, quotechar, escape, strictQuotes, ignoreLeadingWhiteSpace, CSVDefaults.DEFAULT_IGNORE_QUOTATIONS);
 	}
 
 	/**
@@ -153,7 +118,7 @@ class CSVParser {
 		if (anyCharactersAreTheSame(separator, quotechar, escape)) {
 			throw new UnsupportedOperationException("The separator, quote, and escape characters must be different!");
 		}
-		if (separator == NULL_CHARACTER) {
+		if (separator == CSVDefaults.NULL_CHARACTER) {
 			throw new UnsupportedOperationException("The separator character must be defined!");
 		}
 		this.separator = separator;
@@ -169,7 +134,7 @@ class CSVParser {
 	}
 
 	private static boolean isSameCharacter(char c1, char c2) {
-		return c1 != NULL_CHARACTER && c1 == c2;
+		return c1 != CSVDefaults.NULL_CHARACTER && c1 == c2;
 	}
 
 	/**
