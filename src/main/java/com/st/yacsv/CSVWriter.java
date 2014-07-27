@@ -1,5 +1,6 @@
 package com.st.yacsv;
 
+import java.io.BufferedWriter;
 import java.io.Closeable;
 import java.io.Flushable;
 import java.io.IOException;
@@ -8,7 +9,7 @@ import java.util.Collection;
 
 public class CSVWriter implements Flushable, Closeable {
 
-	private Writer out;
+	private BufferedWriter out;
 
 	private char separator;
 
@@ -101,7 +102,11 @@ public class CSVWriter implements Flushable, Closeable {
 	 *            the line feed terminator to use
 	 */
 	public CSVWriter(Writer writer, char separator, char quotechar, char escapechar, String lineEnd) {
-		this.out = writer;
+		if (writer instanceof BufferedWriter) {
+			this.out = (BufferedWriter) writer;
+		} else {
+			this.out = new BufferedWriter(writer);
+		}
 		this.separator = separator;
 		this.quotechar = quotechar;
 		this.escapechar = escapechar;
@@ -185,7 +190,7 @@ public class CSVWriter implements Flushable, Closeable {
 	 * @param nextLine
 	 *            a string array with each comma-separated element as a separate entry.
 	 */
-	public void writeNext(String ... nextLine) throws IOException {
+	public void writeNext(String... nextLine) throws IOException {
 		writeNext(nextLine, true);
 	}
 
