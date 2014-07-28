@@ -6,8 +6,9 @@ import java.io.Flushable;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Collection;
+import java.util.List;
 
-public class CSVWriter implements Flushable, Closeable {
+final public class CSVWriter implements Flushable, Closeable {
 
 	private final BufferedWriter out;
 	private final char separator;
@@ -15,6 +16,8 @@ public class CSVWriter implements Flushable, Closeable {
 	private final char escapechar;
 	private final String lineEnd;
 	private final boolean applyQuotesAll;
+
+	private boolean first = true;
 
 	public CSVWriter(Writer writer) {
 		this(writer, CSVDefaults.SEPARATOR);
@@ -57,8 +60,50 @@ public class CSVWriter implements Flushable, Closeable {
 	 */
 	public void writeAll(Collection<String[]> allLines) throws IOException {
 		for (String[] line : allLines) {
-			writeNext(line);
+			writeRow(line);
 		}
+	}
+
+	public void writeCell(String value) throws IOException {
+		if (!first) {
+			out.append(separator);
+			first = false;
+		}
+
+		if (value == null) {
+			return;
+		}
+
+		Boolean stringContainsSpecialCharacters = stringContainsSpecialCharacters(value);
+
+		if ((applyQuotesAll || stringContainsSpecialCharacters) && quotechar != CSVDefaults.NO_QUOTE_CHARACTER) {
+			out.append(quotechar);
+		}
+
+		if (stringContainsSpecialCharacters) {
+			processLine(out, value);
+		} else {
+			out.append(value);
+		}
+
+		if ((applyQuotesAll || stringContainsSpecialCharacters) && quotechar != CSVDefaults.NO_QUOTE_CHARACTER) {
+			out.append(quotechar);
+		}
+	}
+
+	public void finishRow() throws IOException {
+		first = true;
+		out.append(lineEnd);
+	}
+
+	public void writeRow(List<String> nextLine) throws IOException {
+		if (nextLine == null) {
+			return;
+		}
+		for (String cur : nextLine) {
+			writeCell(cur);
+		}
+		finishRow();
 	}
 
 	/**
@@ -67,48 +112,21 @@ public class CSVWriter implements Flushable, Closeable {
 	 * @param nextLine
 	 *            a string array with each comma-separated element as a separate entry.
 	 */
-	public void writeNext(String... nextLine) throws IOException {
-
+	public void writeRow(String... nextLine) throws IOException {
 		if (nextLine == null) {
 			return;
 		}
-
 		for (int i = 0; i < nextLine.length; i++) {
-
-			if (i != 0) {
-				out.append(separator);
-			}
-
-			String nextElement = nextLine[i];
-
-			if (nextElement == null) {
-				continue;
-			}
-
-			Boolean stringContainsSpecialCharacters = stringContainsSpecialCharacters(nextElement);
-
-			if ((applyQuotesAll || stringContainsSpecialCharacters) && quotechar != CSVDefaults.NO_QUOTE_CHARACTER) {
-				out.append(quotechar);
-			}
-
-			if (stringContainsSpecialCharacters) {
-				processLine(out, nextElement);
-			} else {
-				out.append(nextElement);
-			}
-
-			if ((applyQuotesAll || stringContainsSpecialCharacters) && quotechar != CSVDefaults.NO_QUOTE_CHARACTER) {
-				out.append(quotechar);
-			}
+			writeCell(nextLine[i]);
 		}
-		out.append(lineEnd);
+		finishRow();
 	}
 
 	private boolean stringContainsSpecialCharacters(String line) {
 		return line.indexOf(quotechar) != -1 || line.indexOf(escapechar) != -1 || line.indexOf(separator) != -1 || line.indexOf("\n") != -1 || line.indexOf("\r") != -1;
 	}
 
-	protected void processLine(Appendable sb, String nextElement) throws IOException {
+	private void processLine(Appendable sb, String nextElement) throws IOException {
 		for (int j = 0; j < nextElement.length(); j++) {
 			char nextChar = nextElement.charAt(j);
 			if (escapechar != CSVDefaults.NO_ESCAPE_CHARACTER && nextChar == quotechar) {
@@ -142,14 +160,6 @@ public class CSVWriter implements Flushable, Closeable {
 	public void close() throws IOException {
 		flush();
 		out.close();
-	}
-
-	public void flushQuietly() {
-		try {
-			flush();
-		} catch (IOException e) {
-			// catch exception and ignore.
-		}
 	}
 
 }
