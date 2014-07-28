@@ -27,7 +27,7 @@ class CSVParser {
 	 * Constructs CSVParser using a comma for the separator.
 	 */
 	CSVParser() {
-		this(CSVDefaults.DEFAULT_SEPARATOR, CSVDefaults.DEFAULT_QUOTE_CHARACTER, CSVDefaults.DEFAULT_ESCAPE_CHARACTER);
+		this(CSVDefaults.SEPARATOR, CSVDefaults.QUOTE_CHARACTER, CSVDefaults.ESCAPE_CHARACTER);
 	}
 
 	/**
@@ -37,7 +37,7 @@ class CSVParser {
 	 *            the delimiter to use for separating entries.
 	 */
 	CSVParser(char separator) {
-		this(separator, CSVDefaults.DEFAULT_QUOTE_CHARACTER, CSVDefaults.DEFAULT_ESCAPE_CHARACTER);
+		this(separator, CSVDefaults.QUOTE_CHARACTER, CSVDefaults.ESCAPE_CHARACTER);
 	}
 
 	/**
@@ -49,7 +49,7 @@ class CSVParser {
 	 *            the character to use for quoted elements
 	 */
 	CSVParser(char separator, char quotechar) {
-		this(separator, quotechar, CSVDefaults.DEFAULT_ESCAPE_CHARACTER);
+		this(separator, quotechar, CSVDefaults.ESCAPE_CHARACTER);
 	}
 
 	/**
@@ -63,7 +63,7 @@ class CSVParser {
 	 *            the character to use for escaping a separator or quote
 	 */
 	CSVParser(char separator, char quotechar, char escape) {
-		this(separator, quotechar, escape, CSVDefaults.DEFAULT_STRICT_QUOTES);
+		this(separator, quotechar, escape, CSVDefaults.STRICT_QUOTES);
 	}
 
 	/**
@@ -79,7 +79,7 @@ class CSVParser {
 	 *            if true, characters outside the quotes are ignored
 	 */
 	CSVParser(char separator, char quotechar, char escape, boolean strictQuotes) {
-		this(separator, quotechar, escape, strictQuotes, CSVDefaults.DEFAULT_IGNORE_LEADING_WHITESPACE);
+		this(separator, quotechar, escape, strictQuotes, CSVDefaults.IGNORE_LEADING_WHITESPACE);
 	}
 
 	/**
@@ -97,7 +97,7 @@ class CSVParser {
 	 *            if true, white space in front of a quote in a field is ignored
 	 */
 	CSVParser(char separator, char quotechar, char escape, boolean strictQuotes, boolean ignoreLeadingWhiteSpace) {
-		this(separator, quotechar, escape, strictQuotes, ignoreLeadingWhiteSpace, CSVDefaults.DEFAULT_IGNORE_QUOTATIONS);
+		this(separator, quotechar, escape, strictQuotes, ignoreLeadingWhiteSpace, CSVDefaults.IGNORE_QUOTATIONS);
 	}
 
 	/**

@@ -17,19 +17,19 @@ public class CSVWriter implements Flushable, Closeable {
 	private final boolean applyQuotesAll;
 
 	public CSVWriter(Writer writer) {
-		this(writer, CSVDefaults.DEFAULT_SEPARATOR);
+		this(writer, CSVDefaults.SEPARATOR);
 	}
 
 	public CSVWriter(Writer writer, char separator) {
-		this(writer, separator, CSVDefaults.DEFAULT_QUOTE_CHARACTER);
+		this(writer, separator, CSVDefaults.QUOTE_CHARACTER);
 	}
 
 	public CSVWriter(Writer writer, char separator, char quotechar) {
-		this(writer, separator, quotechar, CSVDefaults.DEFAULT_ESCAPE_CHARACTER);
+		this(writer, separator, quotechar, CSVDefaults.ESCAPE_CHARACTER);
 	}
 
 	public CSVWriter(Writer writer, char separator, char quotechar, char escapechar) {
-		this(writer, separator, quotechar, escapechar, CSVDefaults.DEFAULT_LINE_END);
+		this(writer, separator, quotechar, escapechar, CSVDefaults.LINE_END);
 	}
 
 	public CSVWriter(Writer writer, char separator, char quotechar, char escapechar, String lineEnd) {
