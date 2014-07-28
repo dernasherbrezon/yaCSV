@@ -123,7 +123,7 @@ final public class CSVWriter implements Flushable, Closeable {
 	}
 
 	private boolean stringContainsSpecialCharacters(String line) {
-		return line.indexOf(quotechar) != -1 || line.indexOf(escapechar) != -1 || line.indexOf(separator) != -1 || line.indexOf("\n") != -1 || line.indexOf("\r") != -1;
+		return line.indexOf(quotechar) != -1 || line.indexOf(escapechar) != -1 || line.indexOf(separator) != -1 || line.indexOf('\n') != -1 || line.indexOf('\r') != -1;
 	}
 
 	private void processLine(Appendable sb, String nextElement) throws IOException {
