@@ -67,8 +67,9 @@ final public class CSVWriter implements Flushable, Closeable {
 	public void writeCell(String value) throws IOException {
 		if (!first) {
 			out.append(separator);
-			first = false;
 		}
+		
+		first = false;
 
 		if (value == null) {
 			return;

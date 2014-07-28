@@ -280,18 +280,17 @@ public class CSVReader implements Closeable, Iterable<String[]>, Iterator<String
 
 	@Override
 	public boolean hasNext() {
+		try {
+			nextLine = readNext();
+		} catch (IOException e) {
+			return false;
+		}
 		return nextLine != null;
 	}
 
 	@Override
 	public String[] next() {
-		String[] temp = nextLine;
-		try {
-			nextLine = readNext();
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-		return temp;
+		return nextLine;
 	}
 
 	@Override
