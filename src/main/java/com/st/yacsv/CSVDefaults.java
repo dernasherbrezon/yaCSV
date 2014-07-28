@@ -5,7 +5,7 @@ public class CSVDefaults {
 	/**
 	 * The character used for escaping quotes.
 	 */
-	public static final char DEFAULT_ESCAPE_CHARACTER = '"';
+	public static final char DEFAULT_ESCAPE_CHARACTER = '\\';
 
 	/**
 	 * The default separator to use if none is supplied to the constructor.
