@@ -115,11 +115,11 @@ class CSVParser {
 	 *            if true, white space in front of a quote in a field is ignored
 	 */
 	CSVParser(char separator, char quotechar, char escape, boolean strictQuotes, boolean ignoreLeadingWhiteSpace, boolean ignoreQuotations) {
-		if (anyCharactersAreTheSame(separator, quotechar, escape)) {
-			throw new UnsupportedOperationException("The separator, quote, and escape characters must be different!");
-		}
 		if (separator == CSVDefaults.NULL_CHARACTER) {
 			throw new UnsupportedOperationException("The separator character must be defined!");
+		}
+		if (anyCharactersAreTheSame(separator, quotechar, escape)) {
+			throw new UnsupportedOperationException("The separator, quote, and escape characters must be different! separator: " + separator + " quotechar: " + quotechar + " escape: " + escape);
 		}
 		this.separator = separator;
 		this.quotechar = quotechar;
