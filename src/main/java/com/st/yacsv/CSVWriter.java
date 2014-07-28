@@ -9,99 +9,34 @@ import java.util.Collection;
 
 public class CSVWriter implements Flushable, Closeable {
 
-	private BufferedWriter out;
+	private final BufferedWriter out;
+	private final char separator;
+	private final char quotechar;
+	private final char escapechar;
+	private final String lineEnd;
+	private final boolean applyQuotesAll;
 
-	private char separator;
-
-	private char quotechar;
-
-	private char escapechar;
-
-	private String lineEnd;
-
-	/**
-	 * Constructs CSVWriter using a comma for the separator.
-	 * 
-	 * @param writer
-	 *            the writer to an underlying CSV source.
-	 */
 	public CSVWriter(Writer writer) {
 		this(writer, CSVDefaults.DEFAULT_SEPARATOR);
 	}
 
-	/**
-	 * Constructs CSVWriter with supplied separator.
-	 * 
-	 * @param writer
-	 *            the writer to an underlying CSV source.
-	 * @param separator
-	 *            the delimiter to use for separating entries.
-	 */
 	public CSVWriter(Writer writer, char separator) {
 		this(writer, separator, CSVDefaults.DEFAULT_QUOTE_CHARACTER);
 	}
 
-	/**
-	 * Constructs CSVWriter with supplied separator and quote char.
-	 * 
-	 * @param writer
-	 *            the writer to an underlying CSV source.
-	 * @param separator
-	 *            the delimiter to use for separating entries
-	 * @param quotechar
-	 *            the character to use for quoted elements
-	 */
 	public CSVWriter(Writer writer, char separator, char quotechar) {
 		this(writer, separator, quotechar, CSVDefaults.DEFAULT_ESCAPE_CHARACTER);
 	}
 
-	/**
-	 * Constructs CSVWriter with supplied separator and quote char.
-	 * 
-	 * @param writer
-	 *            the writer to an underlying CSV source.
-	 * @param separator
-	 *            the delimiter to use for separating entries
-	 * @param quotechar
-	 *            the character to use for quoted elements
-	 * @param escapechar
-	 *            the character to use for escaping quotechars or escapechars
-	 */
 	public CSVWriter(Writer writer, char separator, char quotechar, char escapechar) {
 		this(writer, separator, quotechar, escapechar, CSVDefaults.DEFAULT_LINE_END);
 	}
 
-	/**
-	 * Constructs CSVWriter with supplied separator and quote char.
-	 * 
-	 * @param writer
-	 *            the writer to an underlying CSV source.
-	 * @param separator
-	 *            the delimiter to use for separating entries
-	 * @param quotechar
-	 *            the character to use for quoted elements
-	 * @param lineEnd
-	 *            the line feed terminator to use
-	 */
-	public CSVWriter(Writer writer, char separator, char quotechar, String lineEnd) {
-		this(writer, separator, quotechar, CSVDefaults.DEFAULT_ESCAPE_CHARACTER, lineEnd);
+	public CSVWriter(Writer writer, char separator, char quotechar, char escapechar, String lineEnd) {
+		this(writer, separator, quotechar, escapechar, lineEnd, CSVDefaults.APPLY_QUOTES_ALL);
 	}
 
-	/**
-	 * Constructs CSVWriter with supplied separator, quote char, escape char and line ending.
-	 * 
-	 * @param writer
-	 *            the writer to an underlying CSV source.
-	 * @param separator
-	 *            the delimiter to use for separating entries
-	 * @param quotechar
-	 *            the character to use for quoted elements
-	 * @param escapechar
-	 *            the character to use for escaping quotechars or escapechars
-	 * @param lineEnd
-	 *            the line feed terminator to use
-	 */
-	public CSVWriter(Writer writer, char separator, char quotechar, char escapechar, String lineEnd) {
+	public CSVWriter(Writer writer, char separator, char quotechar, char escapechar, String lineEnd, boolean applyQuotesAll) {
 		if (writer instanceof BufferedWriter) {
 			this.out = (BufferedWriter) writer;
 		} else {
@@ -111,20 +46,7 @@ public class CSVWriter implements Flushable, Closeable {
 		this.quotechar = quotechar;
 		this.escapechar = escapechar;
 		this.lineEnd = lineEnd;
-	}
-
-	/**
-	 * Writes the entire list to a CSV file. The list is assumed to be a String[]
-	 * 
-	 * @param allLines
-	 *            a List of String[], with each String[] representing a line of the file.
-	 * @param applyQuotesToAll
-	 *            true if all values are to be quoted. false if quotes only to be applied to values which contain the separator, escape, quote or new line characters.
-	 */
-	public void writeAll(Collection<String[]> allLines, boolean applyQuotesToAll) throws IOException {
-		for (String[] line : allLines) {
-			writeNext(line, applyQuotesToAll);
-		}
+		this.applyQuotesAll = applyQuotesAll;
 	}
 
 	/**
@@ -144,10 +66,8 @@ public class CSVWriter implements Flushable, Closeable {
 	 * 
 	 * @param nextLine
 	 *            a string array with each comma-separated element as a separate entry.
-	 * @param applyQuotesToAll
-	 *            true if all values are to be quoted. false applies quotes only to values which contain the separator, escape, quote or new line characters.
 	 */
-	public void writeNext(String[] nextLine, boolean applyQuotesToAll) throws IOException {
+	public void writeNext(String... nextLine) throws IOException {
 
 		if (nextLine == null) {
 			return;
@@ -167,7 +87,7 @@ public class CSVWriter implements Flushable, Closeable {
 
 			Boolean stringContainsSpecialCharacters = stringContainsSpecialCharacters(nextElement);
 
-			if ((applyQuotesToAll || stringContainsSpecialCharacters) && quotechar != CSVDefaults.NO_QUOTE_CHARACTER) {
+			if ((applyQuotesAll || stringContainsSpecialCharacters) && quotechar != CSVDefaults.NO_QUOTE_CHARACTER) {
 				out.append(quotechar);
 			}
 
@@ -177,21 +97,11 @@ public class CSVWriter implements Flushable, Closeable {
 				out.append(nextElement);
 			}
 
-			if ((applyQuotesToAll || stringContainsSpecialCharacters) && quotechar != CSVDefaults.NO_QUOTE_CHARACTER) {
+			if ((applyQuotesAll || stringContainsSpecialCharacters) && quotechar != CSVDefaults.NO_QUOTE_CHARACTER) {
 				out.append(quotechar);
 			}
 		}
 		out.append(lineEnd);
-	}
-
-	/**
-	 * Writes the next line to the file.
-	 * 
-	 * @param nextLine
-	 *            a string array with each comma-separated element as a separate entry.
-	 */
-	public void writeNext(String... nextLine) throws IOException {
-		writeNext(nextLine, true);
 	}
 
 	private boolean stringContainsSpecialCharacters(String line) {

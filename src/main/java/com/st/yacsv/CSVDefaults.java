@@ -2,6 +2,8 @@ package com.st.yacsv;
 
 public class CSVDefaults {
 
+	public static final boolean APPLY_QUOTES_ALL = true;
+	
 	/**
 	 * The character used for escaping quotes.
 	 */
