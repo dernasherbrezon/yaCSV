@@ -4,9 +4,7 @@ import java.io.BufferedReader;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 public class CSVReader implements Closeable, Iterable<String[]>, Iterator<String[]> {
 
@@ -192,33 +190,7 @@ public class CSVReader implements Closeable, Iterable<String[]>, Iterator<String
 		this.parser = csvParser;
 	}
 
-	/**
-	 * Reads the entire file into a List with each element being a String[] of tokens.
-	 * 
-	 * @return a List of String[], with each String[] representing a line of the file.
-	 * @throws IOException
-	 *             if bad things happen during the read
-	 */
-	public List<String[]> readAll() throws IOException {
-
-		List<String[]> allElements = new ArrayList<String[]>();
-		while (hasNext) {
-			String[] nextLineAsTokens = readNext();
-			if (nextLineAsTokens != null)
-				allElements.add(nextLineAsTokens);
-		}
-		return allElements;
-
-	}
-
-	/**
-	 * Reads the next line from the buffer and converts to a string array.
-	 * 
-	 * @return a string array with each comma-separated element as a separate entry.
-	 * @throws IOException
-	 *             if bad things happen during the read
-	 */
-	public String[] readNext() throws IOException {
+	private String[] readNext() throws IOException {
 
 		String[] result = null;
 		do {
