@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.aerse</groupId>
 	<artifactId>yaCSV</artifactId>
-	<version>1.1</version>
+	<version>1.2-SNAPSHOT</version>
 	<description>Yet Another CSV parser</description>
 	<url>https://github.com/dernasherbrezon/yacsv</url>
 	
@@ -109,7 +109,7 @@
 		<url>https://github.com/dernasherbrezon/yacsv</url>
 		<connection>scm:git:git@github.com/dernasherbrezon/yacsv.git</connection>
 		<developerConnection>scm:git:https://github.com/dernasherbrezon/yacsv.git</developerConnection>
-    <tag>yaCSV-1.1</tag>
+    <tag>HEAD</tag>
   </scm>
 	
 	<issueManagement>
