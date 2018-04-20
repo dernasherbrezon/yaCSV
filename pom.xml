@@ -1,9 +1,8 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.aerse</groupId>
 	<artifactId>yaCSV</artifactId>
-	<version>1.1-SNAPSHOT</version>
+	<version>1.1</version>
 	<description>Yet Another CSV parser</description>
 	<url>https://github.com/dernasherbrezon/yacsv</url>
 	
@@ -110,7 +109,7 @@
 		<url>https://github.com/dernasherbrezon/yacsv</url>
 		<connection>scm:git:git@github.com/dernasherbrezon/yacsv.git</connection>
 		<developerConnection>scm:git:https://github.com/dernasherbrezon/yacsv.git</developerConnection>
-    <tag>HEAD</tag>
+    <tag>yaCSV-1.1</tag>
   </scm>
 	
 	<issueManagement>
