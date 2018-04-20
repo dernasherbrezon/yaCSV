@@ -1,4 +1,4 @@
-package com.st.yacsv;
+package com.aerse.yacsv;
 
 import java.io.BufferedReader;
 import java.io.Closeable;

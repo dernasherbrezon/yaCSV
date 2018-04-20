@@ -1,4 +1,4 @@
-package com.st.yacsv;
+package com.aerse.yacsv;
 
 public class CSVDefaults {
 
