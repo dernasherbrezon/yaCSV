@@ -10,3 +10,14 @@ You might be wondering why do we need one more java CSV library? Well, I honestl
 Of course, I could contribute to this open source products. But hey, I couldn't change their fundumental principles.
 
 So I decided create yet another CSV library. Hope it will be small and simply to use.
+
+Usage
+==============
+
+```xml
+		<dependency>
+			<groupId>com.aerse</groupId>
+			<artifactId>yaCSV</artifactId>
+			<version>1.2</version>
+		</dependency>
+```
